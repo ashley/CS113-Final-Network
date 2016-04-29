@@ -94,9 +94,19 @@ public class NetworkGUI extends JFrame implements ActionListener{
          while( source != panels[i]){
             i++; 
          }
-         panels[i].setIcon(playGame.makePath(i));
-         System.out.println("in GUI" + playGame.getOrient(i));
-         System.out.println("Test");
+         //panels[i].setIcon(playGame.makePath(i));
+         int num = playGame.rotateNum(playGame.getOrient(i));
+         String type = playGame.getType(i);
+         playGame.setOrient(num, i);
+         panels[i].setIcon(new ImageIcon("pieces/" + type + num + ".png"));
+         
+         if (playGame.checkStatus()){
+            for(int x=0; x<size; x++){
+               panels[x].setBackground(Color.GREEN);
+               panels[x].removeActionListener(this);
+            }
+            System.out.println(playGame.reportWinner());
+         }
       } 
    }//actionPerformed
    
