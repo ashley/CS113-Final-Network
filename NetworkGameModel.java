@@ -14,13 +14,10 @@ class NetworkGameModel extends GameModel{
    public int SIZE = 36;
    private Random r = new Random();
    private ImageIcon [] images = new ImageIcon[SIZE];
-   private String [] panelType = {"node", "node", "node","tee","straight","node",
-                                  "tee","corner","node","tee","tee","corner",
-                                  "straight","node","node","tee","corner","straight",
-                                  "corner","tee","straight","tee","node","corner",
-                                  "node","straight","tee","tee","tee","node",
-                                  "node", "straight","tee","node","corner","node"
-                                  };
+   private String [] panelType = {"","corner1","corner2","corner3","corner4",
+                                  "node1", "node2","node3","node4",
+                                  "tee1", "tee2", "tee3", "tee4",
+                                  "straight1", "straight2"};
    private int [] panelAnswer = {2, 2, 3, 2, 1, 1, 3, 1, 3, 4, 2, 2, 2, 2, 3, 2, 1, 2, 4, 4, 1, 1, 3, 1, 3, 1, 2, 4, 2, 1, 3, 1, 4, 1, 4, 1};
    private int [] panelOrient = new int [36];
 
@@ -30,44 +27,30 @@ class NetworkGameModel extends GameModel{
    }//initate
 
    void takeTurn(int i){
+    panelOrient[i] = rotateNum(i);
    }//check
-
-   boolean gameOverStatus(){
-      return false;
-   }//gameOverStatus
        
    ImageIcon get(int i){
-      int num = getOrient(i);
-      String type = getType(i);
-      return(resizeImage(num,type));
+      String name = getType(i);
+      return(resizeImage(name));
    }//ImageIcon
 
-   ImageIcon resizeImage(int num, String type){
+   ImageIcon resizeImage(String name){
       Toolkit kit = Toolkit.getDefaultToolkit();
-      Image img = kit.getImage("pieces/"+ type + num + ".png");
+      Image img = kit.getImage("pieces/"+ name + ".png");
       img = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
       return (new ImageIcon(img));
    }
 
-   int rotateNum(int i,String type){
+   int rotateNum(int i){
       int num;
-      if (!type.equals("straight")){      
-         if(i < 4){
-            num = i+1;
-         }
-         else{
-             i = 1;
-            num = 1;
-         }
-      }
-      else{
-         if(i == 1){
-            num = 2;
-         }
-         else{
-            num = 1;
-         }
-      }
+     if(i < 14){
+        num = i+1;
+     }
+     else{
+         i = 1;
+        num = 1;
+     }
       return num;
    }
    
@@ -75,7 +58,7 @@ class NetworkGameModel extends GameModel{
       panelOrient[arrNum] = orientationNum;
    }
    
-   boolean checkStatus(){
+   boolean gameOverStatus(){
        //System.out.println(" ");
        //System.out.println("Orient: " + Arrays.toString(panelOrient));
        //System.out.println("Asnwer: " + Arrays.toString(panelAnswer));
@@ -114,7 +97,7 @@ class NetworkGameModel extends GameModel{
    void display(){}  
 
    String reportWinner(){
-      return "Weiner!";
+      return "You've Won!";
    }//reportWinner
    
    void setAnswer(){
@@ -128,7 +111,7 @@ class NetworkGameModel extends GameModel{
    int reset(int i){
          int num = 0;
          int high, low = 1;
-         if(panelType[i].equals("straight")){
+         if(panelAnswer[i] > 12){
             high = 2;
          }
          else{

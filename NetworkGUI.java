@@ -13,7 +13,6 @@ public class NetworkGUI extends JFrame implements ActionListener{
 
    private final int WINDOW_WIDTH = 605;
    private final int WINDOW_HEIGHT = 685;
-   //private JButton panels[17];
    private JButton [] panels = new JButton[36];
    private JButton help, answer, reset;
    private JLabel time;
@@ -30,7 +29,7 @@ public class NetworkGUI extends JFrame implements ActionListener{
       
       Border customBorder = new LineBorder(Color.WHITE, 8);
    
-      JLabel intro = new JLabel("Intro");
+      JLabel intro = new JLabel("Complete the circuit by clicking on the grid.");
       intro.setFont(new Font ("Comic Sans MS", Font.BOLD, 14));
       intro.setForeground(new Color(152,116,165)); //dark pink
       add(intro,BorderLayout.NORTH);
@@ -126,19 +125,16 @@ public class NetworkGUI extends JFrame implements ActionListener{
          while( source != panels[i]){
             i++; 
          }
-         //panels[i].setIcon(playGame.makePath(i));
-         String type = playGame.getType(i);         
-         int num = playGame.rotateNum(playGame.getOrient(i),type);
-         playGame.setOrient(num, i);
-         panels[i].setIcon(playGame.resizeImage(num,type));
+         playGame.takeTurn(i);
+         panels[i].setIcon(playGame.get(playGame.getOrient(i)));
       } 
-      if (playGame.checkStatus()){
+      if (playGame.gameOverStatus()){
             for(int x=0; x<36; x++){
                panels[x].setBackground(Color.GREEN);
                panels[x].setBorderPainted(false);
                panels[x].removeActionListener(this);
             }
-            JOptionPane.showMessageDialog(null, "You've Won!", "Winner", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, playGame.reportWinner(), "Winner", JOptionPane.INFORMATION_MESSAGE);
             answer.removeActionListener(this);
             help.removeActionListener(this);
       }
