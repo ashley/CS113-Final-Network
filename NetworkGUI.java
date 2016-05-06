@@ -4,6 +4,9 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class NetworkGUI extends JFrame implements ActionListener{
 
@@ -17,6 +20,8 @@ public class NetworkGUI extends JFrame implements ActionListener{
    private JLabel time;
    private NetworkGameModel playGame; 
    private JLabel intro;   
+   private Welcome timer;
+   
    
    public NetworkGUI(){
    
@@ -52,11 +57,14 @@ public class NetworkGUI extends JFrame implements ActionListener{
       reset.setForeground(new Color(87,151,188)); //dark blue
       pOptions.add(reset);
    
-      //time Label
+      /*/time Label
       time = new JLabel("Time");
       time.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
-      time.setForeground(new Color(238,200,239)); //blue
-      pOptions.add(time);
+      time.setForeground(new Color(80,80,80)); //blue
+      pOptions.add(time);*/
+      
+      timer = new Welcome();
+      pOptions.add(timer);
        
          
       add (pOptions,BorderLayout.SOUTH);
